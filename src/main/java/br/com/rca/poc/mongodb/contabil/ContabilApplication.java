@@ -1,4 +1,4 @@
-package br.com.rca.poc.mongodb.Contabil;
+package br.com.rca.poc.mongodb.contabil;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
