@@ -1,6 +1,6 @@
 package br.com.rca.poc.mongodb.contabil.api.novo;
 
-import br.com.rca.poc.mongodb.contabil.api.DateExtractor;
+import br.com.rca.poc.mongodb.contabil.domain.exercicio.ExercicioRepository;
 import br.com.rca.poc.mongodb.contabil.domain.lancamento.Lancamento;
 import br.com.rca.poc.mongodb.contabil.domain.lancamento.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
-@RestController("/lancamento/novo")
+@RestController
 public class NovoLancamentoResource {
-  @Autowired
-  LancamentoRepository lancamentoRepository;
+  @Autowired private LancamentoRepository lancamentoRepository;
+  @Autowired private ExercicioRepository exercicioRepository;
 
-  @PostMapping
+  @PostMapping("/lancamento/novo")
   public String obter(@Valid @RequestBody NovoLancamento novoLancamento){
-    LocalDate data = DateExtractor.extract(novoLancamento.getData()).toLocalDate();
-    Lancamento lancamento = new Lancamento(data);
+    Lancamento lancamento = new Lancamento(
+      novoLancamento.getExercicio(),
+      novoLancamento.getData());
     lancamentoRepository.save(lancamento);
     return lancamento.getId();
   }
